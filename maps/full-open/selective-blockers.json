@@ -1,0 +1,14 @@
+{
+  "description": "Training map fixed so every blocker-with-coins provider uses the third original pattern, with its internal random coin choice locked to jump-curve arcs.",
+  "map": 1,
+  "pattern": "original_variant_3_standard_with_coins",
+  "variantTransformPathID": 12398,
+  "providerWebDataOffsets": [36617322, 36621850, 36634874, 36644754, 36653418, 36677538, 36678714, 36692178, 36692850, 36712562, 36746682, 36746978, 36756122, 36756706, 36760802, 36766602, 36771242, 36826466, 36829482, 36865290, 36884282, 36913954, 36951154, 36970882, 36972042, 36978282, 37031898, 37043042, 37086906, 37101274, 37101882, 37106306, 37113330, 37128098, 37180602],
+  "randomCoinChoiceWebDataOffset": 34949422,
+  "randomCoinChoiceTransformPathID": 15498,
+  "hierarchyUnchanged": true,
+  "positionsUnchanged": true,
+  "publicName": "Full Open",
+  "cacheBuster": "berlin-full-open-v1",
+  "totalChangedBytesFromOriginal": 72
+}
