@@ -1,0 +1,22 @@
+{
+  "publicName": "Full Open",
+  "pattern": "original_variant_3_standard_with_coins",
+  "variantTransformPathID": 12398,
+  "effectiveTransformPathID": 12398,
+  "providerWebDataOffsets": [
+    30202400,
+    30261888,
+    30263960,
+    30266384,
+    30881144,
+    30888284,
+    30923560,
+    30927652,
+    30931188,
+    31657116
+  ],
+  "randomCoinChoiceWebDataOffset": null,
+  "randomCoinChoiceTransformPathID": 15498,
+  "dataSha256": "c15ba454ae92e2e5c5e454466382776684132b821a31afe489211d764950255d",
+  "cacheBuster": "havana-full-open-v1"
+}

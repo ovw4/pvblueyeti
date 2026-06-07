@@ -1,0 +1,22 @@
+{
+  "publicName": "Full Closed",
+  "pattern": "jump_jump_jump_with_coins",
+  "variantTransformPathID": 12470,
+  "effectiveTransformPathID": 11473,
+  "providerWebDataOffsets": [
+    30202400,
+    30261888,
+    30263960,
+    30266384,
+    30881144,
+    30888284,
+    30923560,
+    30927652,
+    30931188,
+    31657116
+  ],
+  "randomCoinChoiceWebDataOffset": null,
+  "randomCoinChoiceTransformPathID": 15498,
+  "dataSha256": "d6fae4fa8d6889774113bc0ff2e5786151228523f18e976f74e64a27b549e3fb",
+  "cacheBuster": "havana-full-closed-v1"
+}
