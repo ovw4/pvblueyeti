@@ -58,35 +58,6 @@ const cities = {
         url: "maps/monaco-full-closed/index.html?mode=training"
       }
     }
-  },
-  havana: {
-    title: "Havana",
-    region: "HAVANA",
-    preview: "assets/havana-preview.png",
-    previewAlt: "Trilhos do mapa Havana",
-    maps: {
-      "full-open": {
-        title: "Full Open",
-        badge: "FULL OPEN",
-        subtitle: "Trilhos abertos com moedas",
-        summary: "Mapa Havana modificado com trilhos abertos e rotas de moedas.",
-        url: "maps/havana-full-open/index.html?mode=training"
-      },
-      "full-barriers": {
-        title: "Full Barriers",
-        badge: "FULL BARRIERS",
-        subtitle: "Barreiras roll em todas as linhas",
-        summary: "Havana com barreiras roll repetidas nas tres linhas.",
-        url: "maps/havana-full-barriers/index.html?mode=training"
-      },
-      "full-closed": {
-        title: "Full Closed",
-        badge: "FULL CLOSED",
-        subtitle: "Barreiras jump fechadas",
-        summary: "Havana com barreiras jump fechadas nas tres linhas.",
-        url: "maps/havana-full-closed/index.html?mode=training"
-      }
-    }
   }
 };
 
