@@ -3,66 +3,73 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Berlin - Map Selector</title>
+  <title>Subway Maps - Map Selector</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="page-shell" id="pageShell" inert>
-    <section class="map-card" aria-label="Berlin map selector">
-      <div class="preview-wrap">
-        <img class="preview" src="assets/berlin-preview.png" alt="Berlin subway tracks">
-        <span class="badge" id="selectedBadge">FULL OPEN</span>
-      </div>
+    <div class="selector-stack">
+      <nav class="city-tabs" aria-label="Escolha da cidade">
+        <button class="city-tab is-selected" type="button" data-city="berlin" aria-pressed="true">Berlin</button>
+        <button class="city-tab" type="button" data-city="monaco" aria-pressed="false">Monaco</button>
+      </nav>
 
-      <div class="content">
-        <p class="region">BERLIN</p>
-        <h1>Berlin</h1>
-        <p class="summary" id="mapSummary">Mapa modificado com trilhos abertos e rotas de moedas.</p>
-
-        <div class="field-label">TIPO DA VERSAO</div>
-        <div class="selector" data-open="false">
-          <button class="selector-button" type="button" id="selectorButton" aria-expanded="false" aria-controls="optionPanel">
-            <span class="menu-icon" aria-hidden="true">
-              <span></span><span></span><span></span>
-            </span>
-            <span class="selected-copy">
-              <strong id="selectedTitle">Full Open</strong>
-              <small id="selectedSubtitle">Trilhos abertos com moedas</small>
-            </span>
-            <span class="chevron" aria-hidden="true"></span>
-          </button>
-
-          <div class="option-panel" id="optionPanel" role="radiogroup" aria-label="Tipo da versao">
-            <button class="option is-selected" type="button" role="radio" aria-checked="true" data-map="full-open">
-              <span class="radio-dot" aria-hidden="true"></span>
-              <span>
-                <strong>Full Open</strong>
-                <small>Trilhos abertos com moedas</small>
-              </span>
-            </button>
-            <button class="option" type="button" role="radio" aria-checked="false" data-map="full-barriers">
-              <span class="radio-dot" aria-hidden="true"></span>
-              <span>
-                <strong>Full Barriers</strong>
-                <small>Barreiras roll em todas as linhas</small>
-              </span>
-            </button>
-            <button class="option" type="button" role="radio" aria-checked="false" data-map="full-closed">
-              <span class="radio-dot" aria-hidden="true"></span>
-              <span>
-                <strong>Full Closed</strong>
-                <small>Barreiras jump fechadas</small>
-              </span>
-            </button>
-          </div>
+      <section class="map-card" aria-label="Seletor de mapas">
+        <div class="preview-wrap">
+          <img class="preview" id="mapPreview" src="assets/berlin-preview.png" alt="Trilhos do mapa Berlin">
+          <span class="badge" id="selectedBadge">FULL OPEN</span>
         </div>
 
-        <button class="play-button" type="button" id="playButton">
-          <span class="play-icon" aria-hidden="true"></span>
-          <span>JOGAR</span>
-        </button>
-      </div>
-    </section>
+        <div class="content">
+          <p class="region" id="regionName">BERLIN</p>
+          <h1 id="cityTitle">Berlin</h1>
+          <p class="summary" id="mapSummary">Mapa Berlin modificado com trilhos abertos e rotas de moedas.</p>
+
+          <div class="field-label">TIPO DA VERSAO</div>
+          <div class="selector" data-open="false">
+            <button class="selector-button" type="button" id="selectorButton" aria-expanded="false" aria-controls="optionPanel">
+              <span class="menu-icon" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </span>
+              <span class="selected-copy">
+                <strong id="selectedTitle">Full Open</strong>
+                <small id="selectedSubtitle">Trilhos abertos com moedas</small>
+              </span>
+              <span class="chevron" aria-hidden="true"></span>
+            </button>
+
+            <div class="option-panel" id="optionPanel" role="radiogroup" aria-label="Tipo da versao">
+              <button class="option is-selected" type="button" role="radio" aria-checked="true" data-map="full-open">
+                <span class="radio-dot" aria-hidden="true"></span>
+                <span>
+                  <strong>Full Open</strong>
+                  <small>Trilhos abertos com moedas</small>
+                </span>
+              </button>
+              <button class="option" type="button" role="radio" aria-checked="false" data-map="full-barriers">
+                <span class="radio-dot" aria-hidden="true"></span>
+                <span>
+                  <strong>Full Barriers</strong>
+                  <small>Barreiras roll em todas as linhas</small>
+                </span>
+              </button>
+              <button class="option" type="button" role="radio" aria-checked="false" data-map="full-closed">
+                <span class="radio-dot" aria-hidden="true"></span>
+                <span>
+                  <strong>Full Closed</strong>
+                  <small>Barreiras jump fechadas</small>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <button class="play-button" type="button" id="playButton">
+            <span class="play-icon" aria-hidden="true"></span>
+            <span>JOGAR</span>
+          </button>
+        </div>
+      </section>
+    </div>
   </main>
 
   <div class="beta-overlay" id="betaOverlay" role="dialog" aria-modal="true" aria-labelledby="betaTitle" aria-describedby="betaDescription">
@@ -72,19 +79,19 @@
       </button>
 
       <div class="beta-icon" aria-hidden="true">
-        <span>β</span>
+        <span>B</span>
       </div>
 
       <p class="beta-label"><span></span> AVISO IMPORTANTE</p>
       <h2 id="betaTitle">Site em desenvolvimento</h2>
       <p class="beta-description" id="betaDescription">
-        Esta é uma versão beta do Berlin. Alguns recursos podem mudar, apresentar erros ou ficar temporariamente indisponíveis.
+        Esta e uma versao beta dos mapas Berlin e Monaco. Alguns recursos podem mudar, apresentar erros ou ficar temporariamente indisponiveis.
       </p>
 
       <button class="beta-confirm" type="button" id="betaConfirm">
         <span>ENTENDI</span>
       </button>
-      <p class="beta-version">BERLIN BETA</p>
+      <p class="beta-version">MAPS BETA</p>
     </section>
   </div>
 

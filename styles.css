@@ -54,8 +54,46 @@ body::before {
   padding: 28px 16px;
 }
 
-.map-card {
+.selector-stack {
   width: min(100%, 390px);
+  display: grid;
+  gap: 12px;
+}
+
+.city-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(14, 15, 16, 0.94);
+}
+
+.city-tab {
+  height: 42px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.city-tab:hover,
+.city-tab:focus-visible {
+  color: var(--text);
+}
+
+.city-tab.is-selected {
+  background: #f4f5f6;
+  color: #111;
+}
+
+.map-card {
+  width: 100%;
   position: relative;
   border: 1px solid var(--line-strong);
   border-radius: 30px;
@@ -291,7 +329,8 @@ h1 {
 }
 
 .play-button:focus-visible,
-.selector-button:focus-visible {
+.selector-button:focus-visible,
+.city-tab:focus-visible {
   outline: 3px solid rgba(243, 198, 76, 0.45);
   outline-offset: 3px;
 }
