@@ -5,7 +5,7 @@
   var STORE_NAME = "FILE_DATA";
   var RESOURCE_VALUE = 1000000000;
   var MAX_UPGRADE_LEVEL = 6;
-  var COMPLETE_SAVE_VERSION = "cae94b2070ca3fa8";
+  var COMPLETE_SAVE_VERSION = "cae94b2070ca3fa8-v2";
   var completeSavePromise = window.fetch(
     "../../assets/build/complete-save.bin?v=" + COMPLETE_SAVE_VERSION
   ).then(function (response) {
@@ -99,10 +99,11 @@
     ].join(":");
   }
 
-  function shouldApplyCompleteSave(template) {
-    if (!template || template.length < 32) return false;
+  function shouldApplyCompleteSave(template, saveRecords) {
+    if (!template || template.length < 32 || !saveRecords.length) return false;
     try {
-      return window.localStorage.getItem(completeSaveMarker()) !== "1";
+      return window.localStorage.getItem(completeSaveMarker()) !== "1" ||
+        !saveRecords.every(saveRecordIsReady);
     } catch (error) {
       return true;
     }
@@ -243,7 +244,7 @@
       });
       var templateApplied = false;
 
-      if (shouldApplyCompleteSave(completeSave) && saveRecords.length) {
+      if (shouldApplyCompleteSave(completeSave, saveRecords)) {
         saveRecords.forEach(function (record) {
           record.value.contents = new Uint8Array(completeSave);
           record.value.timestamp = Date.now();
@@ -272,7 +273,7 @@
       return {
         changed: changedRecords.length,
         available: saveRecords.length > 0,
-        ready: saveRecords.some(saveRecordIsReady)
+        ready: saveRecords.length > 0 && saveRecords.every(saveRecordIsReady)
       };
     } finally {
       database.close();
