@@ -58,6 +58,35 @@ const cities = {
         url: "maps/monaco-full-closed/index.html?mode=training"
       }
     }
+  },
+  sanfrancisco: {
+    title: "San Francisco",
+    region: "SAN FRANCISCO",
+    preview: "assets/sanfrancisco-preview.png",
+    previewAlt: "Trilhos do mapa San Francisco",
+    maps: {
+      "full-open": {
+        title: "Full Open",
+        badge: "FULL OPEN",
+        subtitle: "Trilhos abertos com moedas",
+        summary: "Mapa San Francisco modificado com trilhos abertos e rotas de moedas.",
+        url: "maps/sanfrancisco-full-open/index.html?mode=training"
+      },
+      "full-barriers": {
+        title: "Full Barriers",
+        badge: "FULL BARRIERS",
+        subtitle: "Barreiras roll em todas as linhas",
+        summary: "San Francisco com barreiras roll repetidas nas tres linhas.",
+        url: "maps/sanfrancisco-full-barriers/index.html?mode=training"
+      },
+      "full-closed": {
+        title: "Full Closed",
+        badge: "FULL CLOSED",
+        subtitle: "Barreiras jump fechadas",
+        summary: "San Francisco com barreiras jump fechadas nas tres linhas.",
+        url: "maps/sanfrancisco-full-closed/index.html?mode=training"
+      }
+    }
   }
 };
 
