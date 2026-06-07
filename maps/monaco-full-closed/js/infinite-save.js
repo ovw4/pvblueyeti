@@ -5,7 +5,8 @@
   var STORE_NAME = "FILE_DATA";
   var RESOURCE_VALUE = 1000000000;
   var MAX_UPGRADE_LEVEL = 6;
-  var COMPLETE_SAVE_VERSION = "cae94b2070ca3fa8-v2";
+  var COMPLETE_SAVE_VERSION = "cae94b2070ca3fa8-v3";
+  var SAVE_SLOT_NAMES = ["local", "cloud", "local_old", "cloud_old"];
   var completeSavePromise = window.fetch(
     "../../assets/build/complete-save.bin?v=" + COMPLETE_SAVE_VERSION
   ).then(function (response) {
@@ -35,13 +36,13 @@
   };
 
   var onboarding = {
-    runsCompletedInCurrentMissionSet: 1,
-    currentMissionSet: 0,
-    currentSkipForVideoMissionIndex: 2,
-    completedRunCount: 1,
+    runsCompletedInCurrentMissionSet: 367,
+    currentMissionSet: 1,
+    currentSkipForVideoMissionIndex: 0,
+    completedRunCount: 455,
     ageRestrictionInputVersion: 0,
-    ageRestrictionInputMonth: 6,
-    ageRestrictionInputYear: new Date().getFullYear() - 11
+    ageRestrictionInputMonth: 12,
+    ageRestrictionInputYear: 1999
   };
 
   function openDatabase() {
@@ -97,6 +98,38 @@
       COMPLETE_SAVE_VERSION,
       window.location.pathname
     ].join(":");
+  }
+
+  function collectSaveRecords(records, template) {
+    var saveRecords = records.filter(function (record) {
+      return /\/Save\/(?:cloud|cloud_old|local|local_old)$/.test(String(record.key));
+    });
+    if (!template || !saveRecords.length) return saveRecords;
+
+    var keyMatch = String(saveRecords[0].key).match(
+      /^(.*\/Save\/)(?:cloud|cloud_old|local|local_old)$/
+    );
+    if (!keyMatch) return saveRecords;
+
+    var prefix = keyMatch[1];
+    var existingKeys = {};
+    saveRecords.forEach(function (record) {
+      existingKeys[String(record.key)] = true;
+    });
+
+    SAVE_SLOT_NAMES.forEach(function (slotName) {
+      var key = prefix + slotName;
+      if (existingKeys[key]) return;
+      saveRecords.push({
+        key: key,
+        value: {
+          timestamp: Date.now(),
+          mode: 33206,
+          contents: new Uint8Array(template)
+        }
+      });
+    });
+    return saveRecords;
   }
 
   function shouldApplyCompleteSave(template, saveRecords) {
@@ -239,9 +272,7 @@
     try {
       var completeSave = await completeSavePromise;
       var records = await readRecords(database);
-      var saveRecords = records.filter(function (record) {
-        return /\/Save\/(?:cloud|cloud_old|local|local_old)$/.test(String(record.key));
-      });
+      var saveRecords = collectSaveRecords(records, completeSave);
       var templateApplied = false;
 
       if (shouldApplyCompleteSave(completeSave, saveRecords)) {
@@ -287,12 +318,12 @@
       attempts += 1;
       window.applyInfiniteSave().then(function (result) {
         if (result.ready) {
-          if (window.infiniteSaveReadyAtStartup) {
-            window.dispatchEvent(new Event("infinite-save-ready"));
+          if (result.changed > 0 || !window.infiniteSaveReadyAtStartup) {
+            window.location.reload();
             return;
           }
 
-          window.location.reload();
+          window.dispatchEvent(new Event("infinite-save-ready"));
           return;
         }
         if (attempts < 240) {
