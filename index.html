@@ -9,11 +9,17 @@
 <body>
   <main class="page-shell" id="pageShell" inert>
     <div class="selector-stack">
-      <nav class="city-tabs" aria-label="Escolha da cidade">
-        <button class="city-tab is-selected" type="button" data-city="berlin" aria-pressed="true">Berlin</button>
-        <button class="city-tab" type="button" data-city="monaco" aria-pressed="false">Monaco</button>
-        <button class="city-tab" type="button" data-city="sanfrancisco" aria-pressed="false">San Francisco</button>
-      </nav>
+      <div class="selector-header">
+        <nav class="city-tabs" aria-label="Escolha da cidade">
+          <button class="city-tab is-selected" type="button" data-city="berlin" aria-pressed="true">Berlin</button>
+          <button class="city-tab" type="button" data-city="monaco" aria-pressed="false">Monaco</button>
+          <button class="city-tab" type="button" data-city="sanfrancisco" aria-pressed="false">San Francisco</button>
+        </nav>
+
+        <button class="settings-button" type="button" id="settingsButton" aria-label="Abrir configuracoes">
+          <span class="settings-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+      </div>
 
       <section class="map-card" aria-label="Seletor de mapas">
         <div class="preview-wrap">
@@ -93,6 +99,46 @@
         <span>ENTENDI</span>
       </button>
       <p class="beta-version">MAPS BETA</p>
+    </section>
+  </div>
+
+  <div class="settings-overlay" id="settingsOverlay" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" hidden>
+    <section class="settings-modal">
+      <header class="settings-head">
+        <h2 id="settingsTitle">Custom Resolution</h2>
+        <div class="settings-actions">
+          <button class="resolution-switch" type="button" id="resolutionToggle" aria-pressed="false" aria-label="Ativar resolucao personalizada">
+            <span></span>
+          </button>
+          <button class="settings-close" type="button" id="settingsClose" aria-label="Fechar configuracoes">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+      </header>
+
+      <div class="resolution-fields">
+        <label>
+          <span>Width</span>
+          <input id="resolutionWidth" type="number" inputmode="numeric" min="320" max="4096" step="1" value="608">
+        </label>
+        <label>
+          <span>Height</span>
+          <input id="resolutionHeight" type="number" inputmode="numeric" min="320" max="4096" step="1" value="1080">
+        </label>
+      </div>
+
+      <button class="resolution-reset" type="button" id="resolutionReset">RESET</button>
+      <p class="resolution-help">Press F11 for full-screen.</p>
+
+      <div class="resolution-presets" aria-label="Presets de resolucao">
+        <button type="button" data-width="608" data-height="1080">608x1080</button>
+        <button type="button" data-width="800" data-height="600">800x600</button>
+        <button type="button" data-width="800" data-height="1080">800x1080</button>
+        <button type="button" data-width="720" data-height="1280">720x1280</button>
+        <button type="button" data-width="768" data-height="1024">768x1024</button>
+        <button type="button" data-width="820" data-height="1180">820x1180</button>
+        <button type="button" data-width="1024" data-height="1366">1024x1366</button>
+      </div>
     </section>
   </div>
 

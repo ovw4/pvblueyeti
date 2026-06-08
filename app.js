@@ -106,9 +106,78 @@ const betaOverlay = document.getElementById("betaOverlay");
 const betaClose = document.getElementById("betaClose");
 const betaConfirm = document.getElementById("betaConfirm");
 const pageShell = document.getElementById("pageShell");
+const settingsButton = document.getElementById("settingsButton");
+const settingsOverlay = document.getElementById("settingsOverlay");
+const settingsClose = document.getElementById("settingsClose");
+const resolutionToggle = document.getElementById("resolutionToggle");
+const resolutionWidth = document.getElementById("resolutionWidth");
+const resolutionHeight = document.getElementById("resolutionHeight");
+const resolutionReset = document.getElementById("resolutionReset");
+const resolutionPresets = Array.from(document.querySelectorAll(".resolution-presets button"));
+
+const resolutionStorageKey = "subway-custom-resolution";
+const defaultResolution = {
+  enabled: false,
+  width: 608,
+  height: 1080
+};
 
 let selectedCity = "berlin";
 let selectedMap = "full-open";
+let resolutionSettings = loadResolutionSettings();
+
+function clampResolution(value, fallback) {
+  const numeric = Number.parseInt(value, 10);
+  if (!Number.isFinite(numeric)) return fallback;
+  return Math.min(4096, Math.max(320, numeric));
+}
+
+function loadResolutionSettings() {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(resolutionStorageKey) || "null");
+    if (!parsed) return { ...defaultResolution };
+    return {
+      enabled: Boolean(parsed.enabled),
+      width: clampResolution(parsed.width, defaultResolution.width),
+      height: clampResolution(parsed.height, defaultResolution.height)
+    };
+  } catch {
+    return { ...defaultResolution };
+  }
+}
+
+function saveResolutionSettings() {
+  try {
+    window.localStorage.setItem(resolutionStorageKey, JSON.stringify(resolutionSettings));
+  } catch {
+    // Ignore storage failures; the current page state still applies.
+  }
+}
+
+function renderResolutionSettings() {
+  resolutionToggle.classList.toggle("is-enabled", resolutionSettings.enabled);
+  resolutionToggle.setAttribute("aria-pressed", String(resolutionSettings.enabled));
+  resolutionWidth.value = String(resolutionSettings.width);
+  resolutionHeight.value = String(resolutionSettings.height);
+
+  resolutionPresets.forEach((preset) => {
+    preset.classList.toggle(
+      "is-selected",
+      Number(preset.dataset.width) === resolutionSettings.width &&
+      Number(preset.dataset.height) === resolutionSettings.height
+    );
+  });
+}
+
+function updateResolution(values) {
+  resolutionSettings = {
+    enabled: values.enabled ?? resolutionSettings.enabled,
+    width: clampResolution(values.width ?? resolutionSettings.width, defaultResolution.width),
+    height: clampResolution(values.height ?? resolutionSettings.height, defaultResolution.height)
+  };
+  saveResolutionSettings();
+  renderResolutionSettings();
+}
 
 function setOpen(open) {
   selector.dataset.open = String(open);
@@ -159,6 +228,33 @@ function closeBetaNotice() {
   cityTabs[0].focus();
 }
 
+function setSettingsOpen(open) {
+  settingsOverlay.hidden = !open;
+  document.body.classList.toggle("modal-open", open || !betaOverlay.hidden);
+
+  if (open) {
+    pageShell.setAttribute("inert", "");
+    renderResolutionSettings();
+    settingsClose.focus();
+    return;
+  }
+
+  if (betaOverlay.hidden) {
+    pageShell.removeAttribute("inert");
+    settingsButton.focus();
+  }
+}
+
+function selectedMapUrl() {
+  const target = new URL(cities[selectedCity].maps[selectedMap].url, window.location.href);
+  if (resolutionSettings.enabled) {
+    target.searchParams.set("resolution", `${resolutionSettings.width}x${resolutionSettings.height}`);
+  } else {
+    target.searchParams.delete("resolution");
+  }
+  return target.href;
+}
+
 selectorButton.addEventListener("click", () => {
   setOpen(selector.dataset.open !== "true");
 });
@@ -178,11 +274,43 @@ cityTabs.forEach((tab) => {
 });
 
 playButton.addEventListener("click", () => {
-  window.location.href = cities[selectedCity].maps[selectedMap].url;
+  window.location.href = selectedMapUrl();
 });
 
 betaClose.addEventListener("click", closeBetaNotice);
 betaConfirm.addEventListener("click", closeBetaNotice);
+settingsButton.addEventListener("click", () => {
+  setSettingsOpen(true);
+});
+settingsClose.addEventListener("click", () => {
+  setSettingsOpen(false);
+});
+settingsOverlay.addEventListener("click", (event) => {
+  if (event.target === settingsOverlay) {
+    setSettingsOpen(false);
+  }
+});
+resolutionToggle.addEventListener("click", () => {
+  updateResolution({ enabled: !resolutionSettings.enabled });
+});
+resolutionWidth.addEventListener("change", () => {
+  updateResolution({ width: resolutionWidth.value, enabled: true });
+});
+resolutionHeight.addEventListener("change", () => {
+  updateResolution({ height: resolutionHeight.value, enabled: true });
+});
+resolutionReset.addEventListener("click", () => {
+  updateResolution({ ...defaultResolution });
+});
+resolutionPresets.forEach((preset) => {
+  preset.addEventListener("click", () => {
+    updateResolution({
+      enabled: true,
+      width: preset.dataset.width,
+      height: preset.dataset.height
+    });
+  });
+});
 
 document.addEventListener("click", (event) => {
   if (!selector.contains(event.target)) {
@@ -192,6 +320,10 @@ document.addEventListener("click", (event) => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
+    if (!settingsOverlay.hidden) {
+      setSettingsOpen(false);
+      return;
+    }
     if (!betaOverlay.hidden) {
       closeBetaNotice();
       return;
@@ -202,5 +334,6 @@ document.addEventListener("keydown", (event) => {
 });
 
 selectCity(selectedCity);
+renderResolutionSettings();
 document.body.classList.add("modal-open");
 betaConfirm.focus();
