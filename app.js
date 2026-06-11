@@ -1,339 +1,122 @@
-"use strict";
+const CITIES={berlin:{preview:'assets/berlin-preview.png',region:{fr:'BERLIN',en:'BERLIN'},title:{fr:'OVW4 Berlin',en:'OVW4 Berlin'},summary:{fr:'Map Berlin modifiée avec rails ouverts et parcours de pièces optimisé.',en:'Modified Berlin map with open rails and optimized coin routes.'},options:[{id:'full-open',url:'maps/full-open/index.html?mode=training',badge:{fr:'FULL OUVERT',en:'FULL OPEN'},title:{fr:'Full Ouvert',en:'Full Open'},sub:{fr:'Rails ouverts avec pièces',en:'Open rails with coins'}},{id:'full-barriers',url:'maps/full-barriers/index.html?mode=training',badge:{fr:'BARRIÈRES',en:'BARRIERS'},title:{fr:'Barrières',en:'Full Barriers'},sub:{fr:'Barrières roll sur toutes les lignes',en:'Roll barriers on all lanes'}},{id:'full-closed',url:'maps/full-closed/index.html?mode=training',badge:{fr:'FERMÉ',en:'FULL CLOSED'},title:{fr:'Full Fermé',en:'Full Closed'},sub:{fr:'Barrières jump fermées',en:'Closed jump barriers'}}]},monaco:{preview:'assets/monaco-preview.png',region:{fr:'MONACO',en:'MONACO'},title:{fr:'OVW4 Monaco',en:'OVW4 Monaco'},summary:{fr:'Map Monaco modifiée avec circuit optimisé pour le training.',en:'Modified Monaco map with circuit optimized for training.'},options:[{id:'monaco-full-open',url:'maps/monaco-full-open/index.html?mode=training',badge:{fr:'FULL OUVERT',en:'FULL OPEN'},title:{fr:'Full Ouvert',en:'Full Open'},sub:{fr:'Circuit ouvert avec pièces',en:'Open circuit with coins'}},{id:'monaco-full-barriers',url:'maps/monaco-full-barriers/index.html?mode=training',badge:{fr:'BARRIÈRES',en:'BARRIERS'},title:{fr:'Barrières',en:'Full Barriers'},sub:{fr:'Barrières roll sur toutes les lignes',en:'Roll barriers on all lanes'}},{id:'monaco-full-closed',url:'maps/monaco-full-closed/index.html?mode=training',badge:{fr:'FERMÉ',en:'FULL CLOSED'},title:{fr:'Full Fermé',en:'Full Closed'},sub:{fr:'Barrières jump fermées',en:'Closed jump barriers'}}]},sanfrancisco:{preview:'assets/sanfrancisco-preview.png',region:{fr:'SAN FRANCISCO',en:'SAN FRANCISCO'},title:{fr:'OVW4 San Francisco',en:'OVW4 San Francisco'},summary:{fr:'Map San Francisco avec ses célèbres tramways et le Golden Gate.',en:'San Francisco map featuring famous trams and the Golden Gate.'},options:[{id:'sf-full-open',url:'maps/sf-full-open/index.html?mode=training',badge:{fr:'FULL OUVERT',en:'FULL OPEN'},title:{fr:'Full Ouvert',en:'Full Open'},sub:{fr:'Rails ouverts avec pièces',en:'Open rails with coins'}},{id:'sf-full-barriers',url:'maps/sf-full-barriers/index.html?mode=training',badge:{fr:'BARRIÈRES',en:'BARRIERS'},title:{fr:'Barrières',en:'Full Barriers'},sub:{fr:'Barrières roll sur toutes les lignes',en:'Roll barriers on all lanes'}},{id:'sf-full-closed',url:'maps/sf-full-closed/index.html?mode=training',badge:{fr:'FERMÉ',en:'FULL CLOSED'},title:{fr:'Full Fermé',en:'Full Closed'},sub:{fr:'Barrières jump fermées',en:'Closed jump barriers'}}]}};
 
-const cities = {
-  berlin: {
-    title: "Berlin",
-    region: "BERLIN",
-    preview: "assets/berlin-preview.png",
-    previewAlt: "Trilhos do mapa Berlin",
-    maps: {
-      "full-open": {
-        title: "Full Open",
-        badge: "FULL OPEN",
-        subtitle: "Trilhos abertos com moedas",
-        summary: "Mapa Berlin modificado com trilhos abertos e rotas de moedas.",
-        url: "maps/full-open/index.html?mode=training"
-      },
-      "full-barriers": {
-        title: "Full Barriers",
-        badge: "FULL BARRIERS",
-        subtitle: "Barreiras roll em todas as linhas",
-        summary: "Berlin com barreiras roll repetidas nas tres linhas.",
-        url: "maps/full-barriers/index.html?mode=training"
-      },
-      "full-closed": {
-        title: "Full Closed",
-        badge: "FULL CLOSED",
-        subtitle: "Barreiras jump fechadas",
-        summary: "Berlin com barreiras jump fechadas nas tres linhas.",
-        url: "maps/full-closed/index.html?mode=training"
-      }
-    }
-  },
-  monaco: {
-    title: "Monaco",
-    region: "MONACO",
-    preview: "assets/monaco-preview.png",
-    previewAlt: "Trilhos do mapa Monaco",
-    maps: {
-      "full-open": {
-        title: "Full Open",
-        badge: "FULL OPEN",
-        subtitle: "Trilhos abertos com moedas",
-        summary: "Mapa Monaco modificado com trilhos abertos e rotas de moedas.",
-        url: "maps/monaco-full-open/index.html?mode=training"
-      },
-      "full-barriers": {
-        title: "Full Barriers",
-        badge: "FULL BARRIERS",
-        subtitle: "Barreiras roll em todas as linhas",
-        summary: "Monaco com barreiras roll repetidas nas tres linhas.",
-        url: "maps/monaco-full-barriers/index.html?mode=training"
-      },
-      "full-closed": {
-        title: "Full Closed",
-        badge: "FULL CLOSED",
-        subtitle: "Barreiras jump fechadas",
-        summary: "Monaco com barreiras jump fechadas nas tres linhas.",
-        url: "maps/monaco-full-closed/index.html?mode=training"
-      }
-    }
-  },
-  sanfrancisco: {
-    title: "San Francisco",
-    region: "SAN FRANCISCO",
-    preview: "assets/sanfrancisco-preview.png",
-    previewAlt: "Trilhos do mapa San Francisco",
-    maps: {
-      "full-open": {
-        title: "Full Open",
-        badge: "FULL OPEN",
-        subtitle: "Trilhos abertos com moedas",
-        summary: "Mapa San Francisco modificado com trilhos abertos e rotas de moedas.",
-        url: "maps/sanfrancisco-full-open/index.html?mode=training"
-      },
-      "full-barriers": {
-        title: "Full Barriers",
-        badge: "FULL BARRIERS",
-        subtitle: "Barreiras roll em todas as linhas",
-        summary: "San Francisco com barreiras roll repetidas nas tres linhas.",
-        url: "maps/sanfrancisco-full-barriers/index.html?mode=training"
-      },
-      "full-closed": {
-        title: "Full Closed",
-        badge: "FULL CLOSED",
-        subtitle: "Barreiras jump fechadas",
-        summary: "San Francisco com barreiras jump fechadas nas tres linhas.",
-        url: "maps/sanfrancisco-full-closed/index.html?mode=training"
-      }
-    }
-  }
-};
+let lang=localStorage.getItem('ovw4_lang')||'fr';
+let city='berlin',optIdx=0,selOpen=false;
+let resOn=localStorage.getItem('ovw4_res_on')==='true';
+let resW=parseInt(localStorage.getItem('ovw4_res_w')||'608');
+let resH=parseInt(localStorage.getItem('ovw4_res_h')||'1080');
+let strOn=localStorage.getItem('ovw4_str')==='true';
+let strVal=parseInt(localStorage.getItem('ovw4_str_val')||'0');
 
-const selector = document.querySelector(".selector");
-const selectorButton = document.getElementById("selectorButton");
-const selectedBadge = document.getElementById("selectedBadge");
-const selectedTitle = document.getElementById("selectedTitle");
-const selectedSubtitle = document.getElementById("selectedSubtitle");
-const mapSummary = document.getElementById("mapSummary");
-const mapPreview = document.getElementById("mapPreview");
-const regionName = document.getElementById("regionName");
-const cityTitle = document.getElementById("cityTitle");
-const playButton = document.getElementById("playButton");
-const options = Array.from(document.querySelectorAll(".option"));
-const cityTabs = Array.from(document.querySelectorAll(".city-tab"));
-const betaOverlay = document.getElementById("betaOverlay");
-const betaClose = document.getElementById("betaClose");
-const betaConfirm = document.getElementById("betaConfirm");
-const pageShell = document.getElementById("pageShell");
-const settingsButton = document.getElementById("settingsButton");
-const settingsOverlay = document.getElementById("settingsOverlay");
-const settingsClose = document.getElementById("settingsClose");
-const resolutionToggle = document.getElementById("resolutionToggle");
-const resolutionWidth = document.getElementById("resolutionWidth");
-const resolutionHeight = document.getElementById("resolutionHeight");
-const resolutionReset = document.getElementById("resolutionReset");
-const resolutionPresets = Array.from(document.querySelectorAll(".resolution-presets button"));
+function t(o){return o[lang]||o.fr;}
 
-const resolutionStorageKey = "subway-custom-resolution";
-const defaultResolution = {
-  enabled: false,
-  width: 608,
-  height: 1080
-};
-
-let selectedCity = "berlin";
-let selectedMap = "full-open";
-let resolutionSettings = loadResolutionSettings();
-
-function clampResolution(value, fallback) {
-  const numeric = Number.parseInt(value, 10);
-  if (!Number.isFinite(numeric)) return fallback;
-  return Math.min(4096, Math.max(320, numeric));
+function stars(id){
+  const c=document.getElementById(id);if(!c)return;
+  const x=c.getContext('2d');let s=[];
+  function resize(){c.width=innerWidth;c.height=innerHeight;s=Array.from({length:180},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.4+.3,a:Math.random()*Math.PI*2,sp:Math.random()*.005+.002}));}
+  function draw(){x.clearRect(0,0,c.width,c.height);s.forEach(p=>{p.a+=p.sp;const al=(Math.sin(p.a)+1)/2*.75+.1;x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle=`rgba(210,190,255,${al})`;x.fill();});requestAnimationFrame(draw);}
+  resize();draw();addEventListener('resize',resize);
 }
 
-function loadResolutionSettings() {
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem(resolutionStorageKey) || "null");
-    if (!parsed) return { ...defaultResolution };
-    return {
-      enabled: Boolean(parsed.enabled),
-      width: clampResolution(parsed.width, defaultResolution.width),
-      height: clampResolution(parsed.height, defaultResolution.height)
-    };
-  } catch {
-    return { ...defaultResolution };
-  }
+function renderCity(){
+  const d=CITIES[city];
+  document.getElementById('preview').src=d.preview;
+  document.getElementById('region').textContent=t(d.region);
+  document.getElementById('cityTitle').textContent=t(d.title);
+  document.getElementById('summary').textContent=t(d.summary);
+  document.getElementById('fieldLabel').textContent=lang==='fr'?'TYPE DE VERSION':'VERSION TYPE';
+  document.getElementById('playLabel').textContent=lang==='fr'?'JOUER':'PLAY';
+  document.getElementById('settingsTitle').textContent=lang==='fr'?'Paramètres':'Settings';
+  document.getElementById('tabRes').textContent=lang==='fr'?'Résolution':'Resolution';
+  document.getElementById('resLabel').textContent=lang==='fr'?'Résolution personnalisée':'Custom resolution';
+  document.getElementById('resHint').textContent=lang==='fr'?'Appuie sur F11 pour le plein écran.':'Press F11 for full-screen.';
+  document.getElementById('stretchLabel').textContent=lang==='fr'?'Intensité':'Intensity';
+  document.getElementById('stretchHint').textContent=lang==='fr'?'Étire le jeu horizontalement. Désactive la résolution personnalisée.':'Stretches the game horizontally. Disables custom resolution.';
+  document.getElementById('resReset').textContent=lang==='fr'?'Réinitialiser':'Reset';
+  document.getElementById('stretchReset').textContent=lang==='fr'?'Réinitialiser':'Reset';
+  renderOpts();updateSel();
 }
 
-function saveResolutionSettings() {
-  try {
-    window.localStorage.setItem(resolutionStorageKey, JSON.stringify(resolutionSettings));
-  } catch {
-    // Ignore storage failures; the current page state still applies.
-  }
+function renderOpts(){
+  const opts=CITIES[city].options;
+  document.getElementById('optPanel').innerHTML=opts.map((o,i)=>`
+    <button class="option ${i===optIdx?'is-selected':''}" data-i="${i}">
+      <span class="radio-dot"></span>
+      <span><strong>${t(o.title)}</strong><small>${t(o.sub)}</small></span>
+    </button>`).join('');
+  document.querySelectorAll('.option').forEach(b=>b.addEventListener('click',()=>{optIdx=+b.dataset.i;renderOpts();updateSel();closeSel();}));
 }
 
-function renderResolutionSettings() {
-  resolutionToggle.classList.toggle("is-enabled", resolutionSettings.enabled);
-  resolutionToggle.setAttribute("aria-pressed", String(resolutionSettings.enabled));
-  resolutionWidth.value = String(resolutionSettings.width);
-  resolutionHeight.value = String(resolutionSettings.height);
-
-  resolutionPresets.forEach((preset) => {
-    preset.classList.toggle(
-      "is-selected",
-      Number(preset.dataset.width) === resolutionSettings.width &&
-      Number(preset.dataset.height) === resolutionSettings.height
-    );
-  });
+function updateSel(){
+  const o=CITIES[city].options[optIdx];
+  document.getElementById('badge').textContent=t(o.badge);
+  document.getElementById('selTitle').textContent=t(o.title);
+  document.getElementById('selSub').textContent=t(o.sub);
 }
 
-function updateResolution(values) {
-  resolutionSettings = {
-    enabled: values.enabled ?? resolutionSettings.enabled,
-    width: clampResolution(values.width ?? resolutionSettings.width, defaultResolution.width),
-    height: clampResolution(values.height ?? resolutionSettings.height, defaultResolution.height)
-  };
-  saveResolutionSettings();
-  renderResolutionSettings();
+function openSel(){selOpen=true;document.getElementById('sel').dataset.open='true';document.getElementById('selBtn').setAttribute('aria-expanded','true');}
+function closeSel(){selOpen=false;document.getElementById('sel').dataset.open='false';document.getElementById('selBtn').setAttribute('aria-expanded','false');}
+
+function saveSettings(){
+  localStorage.setItem('ovw4_res_on',resOn);localStorage.setItem('ovw4_res_w',resW);localStorage.setItem('ovw4_res_h',resH);
+  localStorage.setItem('ovw4_str',strOn);localStorage.setItem('ovw4_str_val',strVal);
 }
 
-function setOpen(open) {
-  selector.dataset.open = String(open);
-  selectorButton.setAttribute("aria-expanded", String(open));
+function syncUI(){
+  document.getElementById('resToggle').setAttribute('aria-pressed',resOn);
+  document.getElementById('resW').value=resW;document.getElementById('resH').value=resH;
+  document.getElementById('resFields').style.opacity=resOn?'1':'.4';
+  document.getElementById('resFields').style.pointerEvents=resOn?'all':'none';
+  document.getElementById('stretchToggle').setAttribute('aria-pressed',strOn);
+  document.getElementById('stretchSlider').value=strVal;
+  document.getElementById('stretchValDisplay').textContent=strVal+'%';
+  document.getElementById('stretchBody').classList.toggle('on',strOn);
 }
 
-function selectMap(mapKey) {
-  const map = cities[selectedCity].maps[mapKey];
-  if (!map) return;
-
-  selectedMap = mapKey;
-  selectedBadge.textContent = map.badge;
-  selectedTitle.textContent = map.title;
-  selectedSubtitle.textContent = map.subtitle;
-  mapSummary.textContent = map.summary;
-
-  options.forEach((option) => {
-    const isSelected = option.dataset.map === mapKey;
-    option.classList.toggle("is-selected", isSelected);
-    option.setAttribute("aria-checked", String(isSelected));
-  });
+function play(){
+  const o=CITIES[city].options[optIdx];
+  const p=new URLSearchParams({url:o.url,name:t(CITIES[city].title)+' — '+t(o.title),res_on:resOn,res_w:resW,res_h:resH,str:strOn,str_val:strVal});
+  window.open('game.html?'+p,'_blank');
 }
 
-function selectCity(cityKey) {
-  const city = cities[cityKey];
-  if (!city) return;
-
-  selectedCity = cityKey;
-  cityTitle.textContent = city.title;
-  regionName.textContent = city.region;
-  mapPreview.src = city.preview;
-  mapPreview.alt = city.previewAlt;
-
-  cityTabs.forEach((tab) => {
-    const isSelected = tab.dataset.city === cityKey;
-    tab.classList.toggle("is-selected", isSelected);
-    tab.setAttribute("aria-pressed", String(isSelected));
-  });
-
-  selectMap(selectedMap);
-  setOpen(false);
+let done=false;
+function skipIntro(){
+  if(done)return;done=true;
+  document.getElementById('intro').classList.add('fade-out');
+  document.getElementById('shell').removeAttribute('inert');
+  setTimeout(()=>document.getElementById('intro').remove(),900);
 }
 
-function closeBetaNotice() {
-  betaOverlay.hidden = true;
-  document.body.classList.remove("modal-open");
-  pageShell.removeAttribute("inert");
-  cityTabs[0].focus();
-}
+document.addEventListener('DOMContentLoaded',()=>{
+  stars('introStars');stars('bgStars');
+  addEventListener('load',()=>{document.getElementById('audio').play().catch(()=>{});setTimeout(()=>{if(!done)skipIntro();},5000);});
+  document.getElementById('intro').addEventListener('click',skipIntro);
 
-function setSettingsOpen(open) {
-  settingsOverlay.hidden = !open;
-  document.body.classList.toggle("modal-open", open || !betaOverlay.hidden);
+  document.getElementById('langBtn').addEventListener('click',()=>{lang=lang==='fr'?'en':'fr';localStorage.setItem('ovw4_lang',lang);document.getElementById('langBtn').textContent=lang.toUpperCase();renderCity();});
+  document.querySelectorAll('.city-tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.city-tab').forEach(x=>x.classList.remove('is-selected'));b.classList.add('is-selected');city=b.dataset.city;optIdx=0;closeSel();renderCity();}));
+  document.getElementById('selBtn').addEventListener('click',()=>selOpen?closeSel():openSel());
+  document.addEventListener('click',e=>{if(!document.getElementById('sel').contains(e.target))closeSel();});
+  document.getElementById('playBtn').addEventListener('click',play);
 
-  if (open) {
-    pageShell.setAttribute("inert", "");
-    renderResolutionSettings();
-    settingsClose.focus();
-    return;
-  }
+  document.getElementById('settingsBtn').addEventListener('click',()=>{document.getElementById('settingsOverlay').removeAttribute('hidden');syncUI();});
+  document.getElementById('settingsClose').addEventListener('click',()=>document.getElementById('settingsOverlay').setAttribute('hidden',''));
+  document.getElementById('settingsOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('settingsOverlay'))document.getElementById('settingsOverlay').setAttribute('hidden','');});
 
-  if (betaOverlay.hidden) {
-    pageShell.removeAttribute("inert");
-    settingsButton.focus();
-  }
-}
+  document.querySelectorAll('.stab').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.stab').forEach(x=>x.classList.remove('is-active'));b.classList.add('is-active');
+    document.getElementById('panelRes').hidden=b.dataset.tab!=='res';
+    document.getElementById('panelStretch').hidden=b.dataset.tab!=='stretch';
+  }));
 
-function selectedMapUrl() {
-  const target = new URL(cities[selectedCity].maps[selectedMap].url, window.location.href);
-  if (resolutionSettings.enabled) {
-    target.searchParams.set("resolution", `${resolutionSettings.width}x${resolutionSettings.height}`);
-  } else {
-    target.searchParams.delete("resolution");
-  }
-  return target.href;
-}
+  document.getElementById('resToggle').addEventListener('click',()=>{resOn=!resOn;if(resOn)strOn=false;saveSettings();syncUI();});
+  document.getElementById('resW').addEventListener('input',e=>{resW=+e.target.value||608;saveSettings();});
+  document.getElementById('resH').addEventListener('input',e=>{resH=+e.target.value||1080;saveSettings();});
+  document.querySelectorAll('.res-presets button').forEach(b=>b.addEventListener('click',()=>{resW=+b.dataset.w;resH=+b.dataset.h;resOn=true;strOn=false;saveSettings();syncUI();}));
+  document.getElementById('resReset').addEventListener('click',()=>{resOn=false;resW=608;resH=1080;saveSettings();syncUI();});
+  document.getElementById('stretchToggle').addEventListener('click',()=>{strOn=!strOn;if(strOn)resOn=false;saveSettings();syncUI();});
+  document.getElementById('stretchSlider').addEventListener('input',e=>{strVal=+e.target.value;document.getElementById('stretchValDisplay').textContent=strVal+'%';saveSettings();});
+  document.getElementById('stretchReset').addEventListener('click',()=>{strOn=false;strVal=0;saveSettings();syncUI();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('settingsOverlay').setAttribute('hidden','');closeSel();}});
 
-selectorButton.addEventListener("click", () => {
-  setOpen(selector.dataset.open !== "true");
+  renderCity();
 });
-
-options.forEach((option) => {
-  option.addEventListener("click", () => {
-    selectMap(option.dataset.map);
-    setOpen(false);
-    selectorButton.focus();
-  });
-});
-
-cityTabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    selectCity(tab.dataset.city);
-  });
-});
-
-playButton.addEventListener("click", () => {
-  window.location.href = selectedMapUrl();
-});
-
-betaClose.addEventListener("click", closeBetaNotice);
-betaConfirm.addEventListener("click", closeBetaNotice);
-settingsButton.addEventListener("click", () => {
-  setSettingsOpen(true);
-});
-settingsClose.addEventListener("click", () => {
-  setSettingsOpen(false);
-});
-settingsOverlay.addEventListener("click", (event) => {
-  if (event.target === settingsOverlay) {
-    setSettingsOpen(false);
-  }
-});
-resolutionToggle.addEventListener("click", () => {
-  updateResolution({ enabled: !resolutionSettings.enabled });
-});
-resolutionWidth.addEventListener("change", () => {
-  updateResolution({ width: resolutionWidth.value, enabled: true });
-});
-resolutionHeight.addEventListener("change", () => {
-  updateResolution({ height: resolutionHeight.value, enabled: true });
-});
-resolutionReset.addEventListener("click", () => {
-  updateResolution({ ...defaultResolution });
-});
-resolutionPresets.forEach((preset) => {
-  preset.addEventListener("click", () => {
-    updateResolution({
-      enabled: true,
-      width: preset.dataset.width,
-      height: preset.dataset.height
-    });
-  });
-});
-
-document.addEventListener("click", (event) => {
-  if (!selector.contains(event.target)) {
-    setOpen(false);
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    if (!settingsOverlay.hidden) {
-      setSettingsOpen(false);
-      return;
-    }
-    if (!betaOverlay.hidden) {
-      closeBetaNotice();
-      return;
-    }
-    setOpen(false);
-    selectorButton.focus();
-  }
-});
-
-selectCity(selectedCity);
-renderResolutionSettings();
-document.body.classList.add("modal-open");
-betaConfirm.focus();

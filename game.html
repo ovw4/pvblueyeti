@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OVW4 Subway</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100vw;height:100vh;overflow:hidden;background:#000;font-family:'Segoe UI',sans-serif}
+#loader{position:fixed;inset:0;z-index:999;background:#07050f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .6s ease}
+#loader.hidden{opacity:0;pointer-events:none}
+.load-logo{font-size:1.1rem;font-weight:800;letter-spacing:.3em;color:rgba(192,132,252,.7);text-transform:uppercase}
+.load-title{font-size:1.6rem;font-weight:800;color:#f1ebff;letter-spacing:.04em;text-align:center}
+.load-bar-wrap{width:260px;height:4px;background:rgba(124,58,237,.2);border-radius:4px;overflow:hidden}
+.load-bar{height:100%;background:linear-gradient(90deg,#7c3aed,#a855f7,#e879f9);border-radius:4px;width:0%;transition:width .3s ease;box-shadow:0 0 10px rgba(168,85,247,.6)}
+.load-pct{font-size:.8rem;color:rgba(192,132,252,.6);letter-spacing:.1em}
+.load-stars{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+iframe{position:absolute;top:0;left:0;border:none;display:block}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <canvas id="lStars"></canvas>
+  <div class="load-logo">OVW4 SUBWAY</div>
+  <div class="load-title" id="loadTitle">Chargement...</div>
+  <div class="load-bar-wrap"><div class="load-bar" id="loadBar"></div></div>
+  <div class="load-pct" id="loadPct">0%</div>
+</div>
+
+<iframe id="game" allowfullscreen allow="autoplay;fullscreen;gamepad"></iframe>
+
+<script>
+// Stars
+const c=document.getElementById('lStars');
+const x=c.getContext('2d');let s=[];
+function rs(){c.width=innerWidth;c.height=innerHeight;s=Array.from({length:150},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.2+.2,a:Math.random()*Math.PI*2,sp:Math.random()*.005+.002}));}
+function ds(){x.clearRect(0,0,c.width,c.height);s.forEach(p=>{p.a+=p.sp;const al=(Math.sin(p.a)+1)/2*.7+.1;x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle=`rgba(210,190,255,${al})`;x.fill();});requestAnimationFrame(ds);}
+rs();ds();addEventListener('resize',rs);
+
+// Params
+const params=new URLSearchParams(location.search);
+const url=params.get('url')||'';
+const name=params.get('name')||'OVW4 Subway';
+const resOn=params.get('res_on')==='true';
+const resW=parseInt(params.get('res_w')||'608');
+const resH=parseInt(params.get('res_h')||'1080');
+const strOn=params.get('str')==='true';
+const strVal=parseInt(params.get('str_val')||'0');
+
+document.title='OVW4 Subway — '+name;
+document.getElementById('loadTitle').textContent=name;
+
+// Apply resolution/stretch to iframe
+const iframe=document.getElementById('game');
+if(strOn){
+  const f=1+strVal/100;
+  iframe.style.width=Math.round(f*100)+'vw';
+  iframe.style.height='100vh';
+  iframe.style.transform=`scaleX(${(1/f).toFixed(4)})`;
+  iframe.style.transformOrigin='left top';
+} else if(resOn){
+  iframe.style.width=resW+'px';
+  iframe.style.height=resH+'px';
+  iframe.style.left='50%';
+  iframe.style.top='50%';
+  iframe.style.transform='translate(-50%,-50%)';
+} else {
+  iframe.style.width='100vw';
+  iframe.style.height='100vh';
+}
+
+// Fake progress bar then load
+let pct=0;
+const bar=document.getElementById('loadBar');
+const pctEl=document.getElementById('loadPct');
+const interval=setInterval(()=>{
+  pct+=Math.random()*8+2;
+  if(pct>=90){pct=90;clearInterval(interval);}
+  bar.style.width=pct+'%';
+  pctEl.textContent=Math.round(pct)+'%';
+},200);
+
+iframe.addEventListener('load',()=>{
+  clearInterval(interval);
+  bar.style.width='100%';
+  pctEl.textContent='100%';
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hidden');
+    setTimeout(()=>document.getElementById('loader').remove(),700);
+  },400);
+});
+
+if(url) iframe.src=url;
+</script>
+</body>
+</html>
